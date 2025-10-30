@@ -1,0 +1,23 @@
+name: Deploy to Hostinger via FTP
+
+on:
+  push:
+    branches:
+      - main  # Cambiá si tu rama principal tiene otro nombre
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Deploy changed files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: 185.173.111.51       # o ftp.tusitio.com
+          username: u431806884          # tu usuario FTP
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: public_html/      # carpeta de destino
+          dry-run: false                # ejecutar el deploy real
+          git-ftp-args: --only-new      # subir solo los archivos nuevos o modificados
